@@ -11,7 +11,8 @@ class UserFridge(db.Model):
     food_id = db.Column(db.Integer, db.ForeignKey('foods.id'), nullable=False)
     quantity = db.Column(db.Integer, default=1)
     added_on = db.Column(db.DateTime, default=db.func.current_timestamp())
-    best_before = db.Column(db.DateTime, nullable=False)
+    best_before = db.Column(db.DateTime, nullable=True)
+    weight = db.Column(db.Integer, nullable=True)
 
     # Define relationships
     # This line creates a relationship between the UserFridge model and the User model. 

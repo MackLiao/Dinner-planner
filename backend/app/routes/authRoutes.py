@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from datetime import timedelta
 from models.userModel import User
+from models.foodModel import Food
+from models.userFridgeModel import UserFridge
 from services.authService import authenticate, create_user, delete_user
 
 auth_blueprint = Blueprint('auth', __name__)
@@ -20,11 +22,16 @@ def login():
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
     
-@auth_blueprint.route('/protected', methods=['GET'])
+@auth_blueprint.route('/dashboard', methods=['GET'])
 @jwt_required()
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+def dashboard():
+    user_id = get_jwt_identity()
+    user_fridge_data = UserFridge.query.filter_by(user_id=user_id).all()
+    fridge_data_list = [{'food_id': item.food_id, 'quantity': item.quantity, 'best_before': item.best_before, 'weight': item.weight} for item in user_fridge_data]
+    if fridge_data_list:
+        return jsonify(fridge_data_list), 200
+    else:
+        return jsonify({'message': 'No data found for user'}), 404
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():

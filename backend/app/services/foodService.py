@@ -5,6 +5,8 @@ from models.userFridgeModel import UserFridge
 
 def search_food():
     query = request.args.get('query', '')
+    # Use the LIKE operator to search for food items that contain the query string
+    # '%' is a wildcard character that matches any sequence of characters
     food_items = Food.query.filter(Food.name.like(f'%{query}%')).all()
     return jsonify([item.serialize() for item in food_items])
 

@@ -12,5 +12,16 @@ class Food(db.Model):
     fat = db.Column(db.Integer, nullable=False)
     category = db.Column(db.String(50), nullable=False)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'calories': self.calories,
+            'carb': self.carb,
+            'protein': self.protein,
+            'fat': self.fat,
+            'category': self.category
+        }
+
     def __repr__(self):
         return '<Food %r>' % self.name

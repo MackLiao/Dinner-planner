@@ -26,12 +26,35 @@ def login():
 @jwt_required()
 def dashboard():
     user_id = get_jwt_identity()
-    user_fridge_data = UserFridge.query.filter_by(user_id=user_id).all()
-    fridge_data_list = [{'food_id': item.food_id, 'quantity': item.quantity, 'best_before': item.best_before, 'weight': item.weight} for item in user_fridge_data]
-    if fridge_data_list:
-        return jsonify(fridge_data_list), 200
+    user_items = UserFridge.query.filter_by(user_id=user_id).all()
+
+    # Initialize an empty list to hold the combined data
+    combined_item_list = []
+
+    for item in user_items:
+        # Query the foodModel table for nutritional data using item.food_id
+        food_info = Food.query.filter_by(id=item.food_id).first()
+
+        # Combine the data from user_items and foodModel table
+        if food_info:
+            combined_item = {
+                'food_id': item.food_id,
+                'quantity': item.quantity,
+                'best_before': item.best_before,
+                'weight': item.weight,
+                'nutritional_data': {
+                    'calories': food_info.calories,
+                    'protein': food_info.protein,
+                    'carb': food_info.carb,
+                    'fat': food_info.fat
+                }
+            }
+            combined_item_list.append(combined_item)
+
+    if combined_item_list:
+        return jsonify(combined_item_list), 200
     else:
-        return jsonify({'message': 'No data found for user'}), 404
+        return jsonify({'message': 'dashboard retriving error'}), 404
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():

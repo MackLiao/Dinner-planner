@@ -1,7 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from backend import app
-
-db = SQLAlchemy(app) # Create a SQLAlchemy object with the app object
+from app import db
 
 class UserFridge(db.Model):
     __tablename__ = 'user_fridges'

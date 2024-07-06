@@ -2,6 +2,7 @@ from flask import request, jsonify
 from app import db
 from models.foodModel import Food
 from models.userFridgeModel import UserFridge
+from datetime import datetime
 
 def search_food():
     query = request.args.get('query', '')
@@ -11,6 +12,11 @@ def search_food():
     return jsonify([item.serialize() for item in food_items])
 
 def add_food(user_id, food_id, quantity, best_before, weight):
+    try:
+        if best_before:
+            best_before = datetime.strptime(best_before, '%Y-%m-%d')
+    except:
+        return jsonify({'message': 'Invalid date format. Please use YYYY-MM-DD'}), 400
     new_item = UserFridge(user_id=user_id, food_id=food_id, quantity=quantity, best_before=best_before, weight=weight)
     db.session.add(new_item)
     db.session.commit()
@@ -31,6 +37,11 @@ def search_user_fridge(user_id):
 # Update the quantity, weight, or best before date of a fridge item
 def update_food(user_id, food_id, quantity=None, weight=None, best_before=None):
     item = UserFridge.query.filter_by(user_id=user_id, food_id=food_id).first()
+    try:
+        if best_before:
+            best_before = datetime.strptime(best_before, '%Y-%m-%d')
+    except:
+        return jsonify({'message': 'Invalid date format. Please use YYYY-MM-DD'}), 400
     if item:
         if quantity is not None:
             item.quantity = quantity

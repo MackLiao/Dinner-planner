@@ -20,5 +20,16 @@ class UserFridge(db.Model):
     user = db.relationship('User', backref=db.backref('fridge_items', lazy=True)) 
     food = db.relationship('Food', backref=db.backref('users', lazy=True))
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'food_id': self.food_id,
+            'quantity': self.quantity,
+            'added_on': self.added_on,
+            'best_before': self.best_before,
+            'weight': self.weight
+        }
+
     def __repr__(self):
         return f'<UserFridge {self.user_id} {self.food_id}>'

@@ -9,5 +9,8 @@
     "test": "react-scripts test"
   },
   "author": "Mack Liao",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
 }

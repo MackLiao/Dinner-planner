@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const history = useHistory(); 
+    const navigate = useNavigate(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,7 +20,7 @@ function Login() {
             
             if (response.ok) {
                 alert('Login successful!');
-                history.push('/auth/dashboard');
+                navigate('/auth/dashboard');
             } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.message || 'Login failed. Please try again.');
@@ -52,3 +53,5 @@ function Login() {
         </div>
     );
 }
+
+export default Login;

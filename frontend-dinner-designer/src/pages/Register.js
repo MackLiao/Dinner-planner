@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const history = useHistory(); // For navigation
+  const navigate = useNavigate(); 
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -22,7 +23,7 @@ function Register() {
         if (response.ok) { 
             // if registration is successful, alert user and redirect
             alert('Account created successfully!');
-            history.push('/auth/login');
+            navigate('/auth/login');
         } else {
             // if registration failed, show error message
             const errorData = await response.json();

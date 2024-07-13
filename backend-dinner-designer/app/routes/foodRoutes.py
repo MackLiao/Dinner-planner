@@ -27,7 +27,7 @@ def handle_delete_food():
     user_id = get_jwt_identity()
     return delete_food(user_id, food_id)
 
-@food_routes.route('/search_user_fridge/', methods=['GET'])
+@food_routes.route('/search_user_fridge', methods=['GET'])
 @jwt_required()
 def handle_search_user_fridge():
     user_id = get_jwt_identity()

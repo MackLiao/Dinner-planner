@@ -19,7 +19,13 @@ const FridgeItemsDashboard = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setFridgeItems(data.fridgeItems);
+          if (data.combined_item_list) {
+            setFridgeItems(data.combined_item_list);
+          } else {
+            // Handle the case where combined_item_list is not in the response
+            console.error('combined_item_list is missing in the response');
+            setFridgeItems([]); // Reset or handle accordingly
+          }
         } else {
           alert('Failed to fetch fridge items.');
         }

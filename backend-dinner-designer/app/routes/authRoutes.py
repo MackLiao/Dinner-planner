@@ -57,10 +57,7 @@ def dashboard():
             combined_item_list.append(combined_item)
             
     combined_item_list = sorted(combined_item_list, key=lambda x: x['best_before'])
-    if combined_item_list:
-        return jsonify(combined_item_list), 200
-    else:
-        return jsonify({'message': 'dashboard retriving error'}), 404
+    return jsonify(combined_item_list=combined_item_list), 200
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():

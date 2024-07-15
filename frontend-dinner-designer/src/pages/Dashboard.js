@@ -4,17 +4,33 @@ import axios from 'axios';
 const FridgeItemsDashboard = () => {
   const [fridgeItems, setFridgeItems] = useState([]);
 
-  // error to fix: axios.get('/search_user_fridge')
   useEffect(() => {
-    axios.get('/search_user_fridge')
-      .then(response => {
-        setFridgeItems(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the fridge items:', error);
-      });
-  }, []); // The empty array ensures this effect runs only once after the initial render
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Get the token from local storage
 
+        const response = await fetch('http://127.0.0.1:5000/auth/dashboard', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setFridgeItems(data.fridgeItems);
+        } else {
+          alert('Failed to fetch fridge items.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to fetch fridge items.');
+      }
+    };
+    fetchData();
+  }, []);
+  
   return (
     <div>
       <h1>Fridge Items</h1>

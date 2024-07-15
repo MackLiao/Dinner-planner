@@ -19,6 +19,8 @@ function Login() {
             });
             
             if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.access_token);
                 alert('Login successful!');
                 navigate('/auth/dashboard');
             } else {

@@ -19,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/auth/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

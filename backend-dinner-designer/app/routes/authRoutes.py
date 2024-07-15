@@ -55,7 +55,8 @@ def dashboard():
                 }
             }
             combined_item_list.append(combined_item)
-
+            
+    combined_item_list = sorted(combined_item_list, key=lambda x: x['best_before'])
     if combined_item_list:
         return jsonify(combined_item_list), 200
     else:

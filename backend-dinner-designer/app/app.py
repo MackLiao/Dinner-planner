@@ -3,10 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv() # Load environment variables from .env file
 
 app = Flask(__name__)
+CORS(app) # Allow CORS for all routes, simply for development purposes
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY') # Secret key for JWT
 # This line already creates the SQLAlchemy object with the app object

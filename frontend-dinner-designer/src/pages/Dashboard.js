@@ -4,6 +4,7 @@ import axios from 'axios';
 const FridgeItemsDashboard = () => {
   const [fridgeItems, setFridgeItems] = useState([]);
 
+  // error to fix: axios.get('/search_user_fridge')
   useEffect(() => {
     axios.get('/search_user_fridge')
       .then(response => {

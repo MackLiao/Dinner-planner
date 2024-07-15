@@ -20,11 +20,11 @@ def create_user(username, email, password):
         raise e
 
 # This method is used to authenticate a user when logging in
-def authenticate(username, password):
-    user = User.query.filter_by(username=username).first()
+def authenticate(email, password):
+    user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password_hash, password):
         return user
-    
+    return None 
 
 def delete_user(id):
     user = User.query.filter_by(id=id).first()

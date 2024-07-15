@@ -6,18 +6,23 @@ from models.userModel import User
 from models.foodModel import Food
 from models.userFridgeModel import UserFridge
 from services.authService import authenticate, create_user, delete_user
+import logging
+
 
 auth_blueprint = Blueprint('auth', __name__)
+logging.basicConfig(level=logging.DEBUG)
+
 
 @auth_blueprint.route('/login', methods=['POST'])
 def login():
-    username = request.json.get('username', None)
+    email = request.json.get('email', None)
     password = request.json.get('password', None)
-
-    user = authenticate(username, password)
+    logging.debug(f"{email}, {password}")
+    
+    user = authenticate(email, password)
 
     if user:
-        access_token = create_access_token(identity=username, expires_delta=timedelta(days=1))
+        access_token = create_access_token(identity=email, expires_delta=timedelta(days=1))
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({'message': 'Invalid credentials'}), 401

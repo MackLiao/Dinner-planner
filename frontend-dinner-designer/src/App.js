@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import SignInSide from './pages/SignInSide';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -23,7 +23,7 @@ function App() {
         </nav>
       </div>
       <Routes>
-        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/login" element={<SignInSide />} />
         <Route path="/auth/register" element={<Register />} />
         <Route path="/auth/dashboard" element={<Dashboard />} />
       </Routes>

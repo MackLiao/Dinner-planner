@@ -6,7 +6,7 @@ const FridgeItemsDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get the token from local storage
+        const token = sessionStorage.getItem('token');  // Retrieve token from sessionStorage for JWT_requried endpoint
 
         const response = await fetch('http://127.0.0.1:5000/auth/dashboard', {
           method: 'GET',

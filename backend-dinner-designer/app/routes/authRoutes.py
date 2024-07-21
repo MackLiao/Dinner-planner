@@ -17,12 +17,13 @@ logging.basicConfig(level=logging.DEBUG)
 def login():
     email = request.json.get('email', None)
     password = request.json.get('password', None)
+    rememberMe = request.json.get('rememberMe', False)
     logging.debug(f"{email}, {password}")
     
     user = authenticate(email, password)
 
     if user:
-        access_token = create_access_token(identity=email, expires_delta=timedelta(days=1))
+        access_token = create_access_token(identity=email, expires_delta=timedelta(days=7) if rememberMe else timedelta(hours=1))
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({'message': 'Invalid credentials'}), 401

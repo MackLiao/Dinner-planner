@@ -41,6 +41,7 @@ export default function SignInSide() {
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
+    const rememberMe = data.get('remember');
 
     try{
       const response = await fetch('http://127.0.0.1:5000/auth/login', {
@@ -48,12 +49,15 @@ export default function SignInSide() {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password, rememberMe}),
       });
       
       if (response.ok) {
           const data = await response.json();
-          localStorage.setItem('token', data.access_token);
+          const token = data.access_token;
+
+          sessionStorage.setItem('token', token); // Store token in sessionStorage for security reasons
+          
           alert('Login successful!');
           navigate('/auth/dashboard');
       } else {

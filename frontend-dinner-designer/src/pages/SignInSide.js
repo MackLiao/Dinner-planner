@@ -57,7 +57,6 @@ export default function SignInSide() {
           const token = data.access_token;
 
           sessionStorage.setItem('token', token); // Store token in sessionStorage for security reasons
-          
           alert('Login successful!');
           navigate('/auth/dashboard');
       } else {

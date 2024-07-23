@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 const FridgeItemsDashboard = () => {
   const [fridgeItems, setFridgeItems] = useState([]);
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('token'); // Remove token from sessionStorage
+    navigate('/auth/login');
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,6 +55,12 @@ const FridgeItemsDashboard = () => {
       ) : (
         <p>No items in the fridge.</p>
       )}
+      <div>
+        <Button onClick={() => handleLogout()}
+        variant="contained" 
+        color="primary"
+        >Logout</Button>
+      </div>
     </div>
   );
 };

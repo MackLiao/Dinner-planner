@@ -17,9 +17,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={isAuthenticated() ? <Dashboard /> : <Navigate replace to="/auth/login" />} />
         <Route path="/auth/login" element={<SignInSide />} />
         <Route path="/auth/register" element={<SignUp />} />
+        <Route path="/auth/dashboard" element={isAuthenticated() ? <Dashboard /> : <Navigate replace to="/auth/login" />} />
       </Routes>
     </Router>
   );

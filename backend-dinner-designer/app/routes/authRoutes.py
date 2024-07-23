@@ -79,3 +79,6 @@ def register():
         return jsonify({'message': 'User created successfully', 'user': str(new_user)}), 201
     except Exception as e:
         return jsonify({'error': 'Failed to create user', 'message': str(e)}), 500
+    
+# @auth_blueprint.route('/logout', methods=['POST'])
+# def logout():

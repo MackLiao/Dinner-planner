@@ -32,7 +32,18 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+const backgroundImageUrls = [
+  "frontend-dinner-designer/public/foodImages/image1.jpg",
+  "frontend-dinner-designer/public/foodImages/image2.jpg",
+  "frontend-dinner-designer/public/foodImages/image3.jpg"
+];
+
+const getRandomImageUrl = () => {
+  return backgroundImageUrls[Math.floor(Math.random() * backgroundImageUrls.length)];
+};
+
 export default function SignInSide() {
+  const backgroundImageUrl = getRandomImageUrl();
   const navigate = useNavigate(); 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -80,8 +91,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              'url("/static/images/templates/templates-images/sign-in-side-bg.png")',
+            backgroundImage: `url("${backgroundImageUrl}")`,
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
+const food_list = [
+];
 
 const FridgeItemsDashboard = () => {
   const [fridgeItems, setFridgeItems] = useState([]);
@@ -56,6 +61,15 @@ const FridgeItemsDashboard = () => {
         <p>No items in the fridge.</p>
       )}
       <div>
+        <div>
+          <Autocomplete
+          disablePortal
+          id="food_search"
+          options={food_list}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Food" />}
+          />
+        </div>
         <Button onClick={() => handleLogout()}
         variant="contained" 
         color="primary"

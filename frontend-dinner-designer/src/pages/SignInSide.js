@@ -43,7 +43,7 @@ const getRandomImageUrl = () => {
 };
 
 export default function SignInSide() {
-  const backgroundImageUrl = getRandomImageUrl();
+  const bgUrl = getRandomImageUrl();
   const navigate = useNavigate(); 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -91,7 +91,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url("${backgroundImageUrl}")`,
+            backgroundImage: `url("${bgUrl}")`,
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',

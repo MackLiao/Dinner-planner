@@ -70,10 +70,10 @@ const FridgeItemsDashboard = () => {
           renderInput={(params) => <TextField {...params} label="Food" />}
           />
         </div>
-        <Button onClick={() => handleLogout()}
-        variant="contained" 
-        color="primary"
-        >Logout</Button>
+          <Button onClick={() => handleLogout()}
+          variant="contained" 
+          color="primary"
+          >Logout</Button>
       </div>
     </div>
   );

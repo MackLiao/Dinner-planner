@@ -26,8 +26,7 @@ app.register_blueprint(food_routes, url_prefix='/')
 
 def create_app():
     app = Flask(__name__)
-    
-    # Configure your Flask app here, e.g., database URI
+     
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
     
     db.init_app(app)

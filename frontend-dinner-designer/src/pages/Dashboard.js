@@ -4,17 +4,46 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const food_list = [
-];
 
 const FridgeItemsDashboard = () => {
   const [fridgeItems, setFridgeItems] = useState([]);
   const navigate = useNavigate();
+  const [foodList, setFoodList] = useState([]);
 
   const handleLogout = () => {
     sessionStorage.removeItem('token'); // Remove token from sessionStorage
     navigate('/auth/login');
   }
+
+  const fetchFoodList = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/get_food_list', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.food_list) {
+          setFoodList(data.food_list);
+        } else {
+          // Handle the case where food_list is not in the response
+          console.error('food_list is missing in the response');
+          setFoodList([]); 
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to fetch food list.');
+    }
+  };
+
+  useEffect(() => {
+    fetchFoodList();
+  }, []);
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,7 +94,8 @@ const FridgeItemsDashboard = () => {
           <Autocomplete
           disablePortal
           id="food_search"
-          options={food_list}
+          options={foodList}
+          getOptionLabel={(option) => option.name}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Food" />}
           />

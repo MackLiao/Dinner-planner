@@ -34,6 +34,10 @@ def search_user_fridge(user_id):
     items = UserFridge.query.filter_by(user_id=user_id).all()
     return jsonify([item.serialize() for item in items])
 
+def get_food_list():
+    food_items = Food.query.all()
+    return jsonify(food_list=[item.serialize() for item in food_items])
+
 # Update the quantity, weight, or best before date of a fridge item
 def update_food(user_id, food_id, quantity=None, weight=None, best_before=None):
     item = UserFridge.query.filter_by(user_id=user_id, food_id=food_id).first()

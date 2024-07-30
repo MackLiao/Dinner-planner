@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from services.foodService import search_food, add_food, delete_food, search_user_fridge, update_food
+from services.foodService import get_food_list, search_food, add_food, delete_food, search_user_fridge, update_food
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 food_routes = Blueprint('food_routes', __name__)
@@ -7,6 +7,10 @@ food_routes = Blueprint('food_routes', __name__)
 @food_routes.route('/search_food', methods=['GET'])
 def handle_search_food():
     return search_food()
+
+@food_routes.route('/get_food_list', methods=['GET'])
+def handle_get_food_list():
+    return get_food_list()
 
 @food_routes.route('/add_food', methods=['POST'])
 @jwt_required()

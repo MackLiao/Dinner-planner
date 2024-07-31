@@ -86,7 +86,12 @@ const FridgeItemsDashboard = () => {
         alert('Food added successfully.');
         fetchUserFridgeItems();
         setDialogOpen(false);
-        setAddFood([]);
+        setAddFood({
+          food_id: foodItems ? foodItems[0].id : '', 
+          quantity: 1,
+          best_before: '',
+          weight: 100,
+        });
       } else {
         alert('Failed to add food.');
       }

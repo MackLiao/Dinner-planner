@@ -9,11 +9,42 @@ const FridgeItemsDashboard = () => {
   const [fridgeItems, setFridgeItems] = useState([]);
   const navigate = useNavigate();
   const [foodList, setFoodList] = useState([]);
+  const [selectedFood, setSelectedFood] = useState(null);
+  const [foodItems, setFoodItems] = useState(null);
 
   const handleLogout = () => {
     sessionStorage.removeItem('token'); // Remove token from sessionStorage
     navigate('/auth/login');
   }
+
+  const handleSearchFood = async () => {
+    if (selectedFood) {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/search_food', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'query': selectedFood.name,
+          },});
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.food_items) {
+            setFoodItems(data.food_items);
+          } else {
+            console.error('food_items is missing in the response');
+            alert('No such food found.');
+            setFoodItems([]); 
+          }
+
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to search food.');
+      }
+    }
+  };
+  
 
   const fetchFoodList = async () => {
     try {
@@ -96,9 +127,14 @@ const FridgeItemsDashboard = () => {
           id="food_search"
           options={foodList}
           getOptionLabel={(option) => option.name}
-          sx={{ width: 300 }}
+          sx={{ width: 500 }}
           renderInput={(params) => <TextField {...params} label="Food" />}
+          onChange={(event, value) => setSelectedFood(value)}
           />
+          <Button onClick={() => handleSearchFood()}
+          variant="contained"
+          color="primary"
+          >Search</Button>
         </div>
           <Button onClick={() => handleLogout()}
           variant="contained" 

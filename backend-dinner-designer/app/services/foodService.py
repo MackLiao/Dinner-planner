@@ -9,7 +9,7 @@ def search_food():
     # Use the LIKE operator to search for food items that contain the query string
     # '%' is a wildcard character that matches any sequence of characters
     food_items = Food.query.filter(Food.name.like(f'%{query}%')).all()
-    return jsonify([item.serialize() for item in food_items])
+    return jsonify(food_items=[item.serialize() for item in food_items])
 
 def add_food(user_id, food_id, quantity, best_before, weight):
     try:

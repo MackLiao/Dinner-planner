@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -7,7 +7,6 @@ import Dialog from '@mui/material/Dialog';
 import { DialogActions, DialogContent } from '@mui/material';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
 
 
 
@@ -31,17 +30,26 @@ const FridgeItemsDashboard = () => {
     best_before: '',
     weight: 100,
   });
+  const [token, setToken] = useState(sessionStorage.getItem('token'));
 
   const handleLogout = () => {
     sessionStorage.removeItem('token'); // Remove token from sessionStorage
+    alert('Logout successful!'); 
     navigate('/auth/login');
   }
+
+  const isAuthenticated = useCallback(() => {
+    const auth = token !== null;
+    if (!auth) {
+      navigate('/auth/login');
+    }
+  }, [token, navigate]);
 
   const handleSearchFood = async () => {
     if (selectedFood) {
       try {
         const response = await fetch('http://127.0.0.1:5000/search_food', {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'query': selectedFood.name,
@@ -70,8 +78,6 @@ const FridgeItemsDashboard = () => {
 
   const handleAddFood = async () => {
     try {
-      // Retrieve token from sessionStorage for JWT_requried endpoint
-      const token = sessionStorage.getItem('token'); 
 
       const response = await fetch('http://127.0.0.1:5000/add_food', {
         method: 'POST',
@@ -109,7 +115,7 @@ const FridgeItemsDashboard = () => {
     }));
   };
 
-  const fetchFoodList = async () => {
+  const fetchFoodList = useCallback(async () => {
     try {
       const response = await fetch('http://127.0.0.1:5000/get_food_list', {
         method: 'GET',
@@ -132,13 +138,10 @@ const FridgeItemsDashboard = () => {
       console.error('Error:', error);
       alert('Failed to fetch food list.');
     }
-  };
+  }, []);
 
-  const fetchUserFridgeItems = async () => {
+  const fetchUserFridgeItems = useCallback(async () => {
     try {
-      // Retrieve token from sessionStorage for JWT_requried endpoint
-      const token = sessionStorage.getItem('token');
-
       const response = await fetch('http://127.0.0.1:5000/auth/dashboard', {
         method: 'GET',
         headers: {
@@ -163,12 +166,13 @@ const FridgeItemsDashboard = () => {
       console.error('Error:', error);
       alert('Failed to fetch fridge items.');
     }
-  };
+  }, [token]);
 
   useEffect(() => {
+    isAuthenticated();
     fetchFoodList();
     fetchUserFridgeItems();
-  }, []);
+  }, [isAuthenticated, fetchFoodList, fetchUserFridgeItems]);
   
   return (
     <div>
@@ -210,7 +214,7 @@ const FridgeItemsDashboard = () => {
             <DialogTitle>Add Food to the Fridge</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                {foodItems[0].description}
+                {foodItems ? foodItems[0].description : ''}
               </DialogContentText>
 
               <TextField

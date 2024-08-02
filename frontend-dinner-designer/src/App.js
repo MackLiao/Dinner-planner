@@ -10,9 +10,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 function App() {
-  const isAuthenticated = () => {
-    return sessionStorage.getItem('token') !== null; // check if user is authenticated
-  }
 
   return (
     <Router>
@@ -20,7 +17,7 @@ function App() {
         <Route path="/" element={<Navigate replace to="/auth/login" />} />
         <Route path="/auth/login" element={<SignInSide />} />
         <Route path="/auth/register" element={<SignUp />} />
-        <Route path="/auth/dashboard" element={isAuthenticated() ? <Dashboard /> : <Navigate replace to="/auth/login" />} />
+        <Route path="/auth/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

@@ -13,7 +13,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 const FridgeItemsDashboard = () => {
   const navigate = useNavigate();
 
-  // Fridge items
+  // Note: it has not been updated when the user adds or removes items from the fridge
+  // Need to fix this
   const [fridgeItems, setFridgeItems] = useState([]);
   // Food data for the Autocomplete component
   const [foodList, setFoodList] = useState([]);

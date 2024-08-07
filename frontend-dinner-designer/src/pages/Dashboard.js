@@ -57,8 +57,10 @@ const FridgeItemsDashboard = () => {
         
         if (response.ok) {
           const data = await response.json();
-          if (data.food_items && data.food_items.length > 0) {
-            setFoodItems(data.food_items);
+          if (data.search_results && data.search_results.length > 0) {
+            setFoodItems(data.search_results);
+            setDialogOpen(true);
+            console.log(data.search_results);
           } else {
             console.error('food_items is missing in the response');
             alert('No such food found.');

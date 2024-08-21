@@ -4,11 +4,10 @@ from models.foodModel import Food
 from models.userFridgeModel import UserFridge
 from datetime import datetime
 
-def search_food():
-    query = request.args.get('query', '')
+def search_food(foodQuery):
     # Use the LIKE operator to search for food items that contain the query string
     # '%' is a wildcard character that matches any sequence of characters
-    food_items = Food.query.filter(Food.name.like(f'%{query}%')).all()
+    food_items = Food.query.filter(Food.name.like(f'{foodQuery}%')).all()
     return jsonify(search_results=[item.serialize() for item in food_items])
 
 def add_food(user_id, food_id, quantity, best_before, weight):

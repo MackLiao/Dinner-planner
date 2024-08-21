@@ -6,7 +6,10 @@ food_routes = Blueprint('food_routes', __name__)
 
 @food_routes.route('/search_food', methods=['GET'])
 def handle_search_food():
-    return search_food()
+    if 'query' not in request.args:
+        return 'No query string provided', 400
+    foodQuery = request.args.get('query', '')
+    return search_food(foodQuery)
 
 @food_routes.route('/get_food_list', methods=['GET'])
 def handle_get_food_list():

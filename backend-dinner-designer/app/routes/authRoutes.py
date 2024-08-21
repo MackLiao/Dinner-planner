@@ -23,6 +23,7 @@ def login():
     user = authenticate(email, password)
 
     if user:
+        # Issue : token refresh days -> 7 days
         access_token = create_access_token(identity=email, expires_delta=timedelta(days=7) if rememberMe else timedelta(hours=1))
         return jsonify(access_token=access_token), 200
     else:

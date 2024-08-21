@@ -48,19 +48,18 @@ const FridgeItemsDashboard = () => {
   const handleSearchFood = async () => {
     if (selectedFood) {
       try {
-        const response = await fetch('http://127.0.0.1:5000/search_food', {
+        const response = await fetch(`http://127.0.0.1:5000/search_food?query=${encodeURIComponent(selectedFood.name)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'query': selectedFood.name,
           },});
-        
+          console.log(selectedFood.name);
         if (response.ok) {
           const data = await response.json();
           if (data.search_results && data.search_results.length > 0) {
             setFoodItems(data.search_results);
             setDialogOpen(true);
-            console.log(data.search_results);
+            console.log("Searched food" + data.search_results);
           } else {
             console.error('food_items is missing in the response');
             alert('No such food found.');
@@ -198,6 +197,7 @@ const FridgeItemsDashboard = () => {
           sx={{ width: 500 }}
           renderInput={(params) => <TextField {...params} label="Food" />}
           onChange={(event, value) => setSelectedFood(value)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           />
           <Button onClick={() => handleSearchFood()}
           variant="contained"
@@ -213,11 +213,11 @@ const FridgeItemsDashboard = () => {
             onSubmit: handleAddFood,
             }}
           >
-            <DialogTitle>Add Food to the Fridge</DialogTitle>
+            <DialogTitle>Add {foodItems ? foodItems[0].name : ''} to the Fridge</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                {foodItems ? foodItems[0].description : ''}
-              </DialogContentText>
+              {/* <DialogContentText>
+                {foodItems ? foodItems[0].name : ''}
+              </DialogContentText> */}
 
               <TextField
                 autoFocus
